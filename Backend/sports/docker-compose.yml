@@ -1,0 +1,19 @@
+services:
+
+  # PostgresSQL database
+  db:
+
+    # The Docker image of postgres -- using the latest
+    image: postgres:latest
+
+    # The ports to expose to the host container
+    # 5432 is the default PostgresSQL port
+    ports:
+      - "5432:5432"
+
+    restart: always
+
+    environment:
+      POSTGRES_PASSWORD: testpassword
+
+# No volumes are configured, hence data isn't stored outside container, making it suitable for development.
