@@ -29,7 +29,7 @@ public class InfrastructureRequest {
     @JoinColumn(name = "user_id")
     private User user;
 
-    // User & InfrastructureRequest Relationship
+    // Infrastructure & InfrastructureRequest Relationship
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "infrastructure_id")
     private Infrastructure infrastructure;

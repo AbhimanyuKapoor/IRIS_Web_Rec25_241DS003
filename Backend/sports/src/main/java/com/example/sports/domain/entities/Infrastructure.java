@@ -33,14 +33,14 @@ public class Infrastructure {
     @Column(name = "operating_hrs")
     private String operatingHrs;
 
-    // User & InfrastructureRequest Relationship
-    @OneToMany(mappedBy = "infrastructure", cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
-    private List<InfrastructureRequest> infrastructureRequests;
+    // Infrastructure & InfrastructureRequest Relationship
+    // @OneToMany(mappedBy = "infrastructure", cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
+    // private List<InfrastructureRequest> infrastructureRequests;
 
     public Infrastructure() {
     }
 
-    public Infrastructure(UUID id, String name, String location, AvailabilityStatus availabilityStatus, Integer quantity, Integer capacity, String operatingHrs, List<InfrastructureRequest> infrastructureRequests) {
+    public Infrastructure(UUID id, String name, String location, AvailabilityStatus availabilityStatus, Integer quantity, Integer capacity, String operatingHrs) {
         this.id = id;
         this.name = name;
         this.location = location;
@@ -48,7 +48,6 @@ public class Infrastructure {
         this.quantity = quantity;
         this.capacity = capacity;
         this.operatingHrs = operatingHrs;
-        this.infrastructureRequests = infrastructureRequests;
     }
 
     public UUID getId() {
@@ -107,25 +106,17 @@ public class Infrastructure {
         this.operatingHrs = operatingHrs;
     }
 
-    public List<InfrastructureRequest> getInfrastructureRequests() {
-        return infrastructureRequests;
-    }
-
-    public void setInfrastructureRequests(List<InfrastructureRequest> infrastructureRequests) {
-        this.infrastructureRequests = infrastructureRequests;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Infrastructure that = (Infrastructure) o;
-        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(location, that.location) && availabilityStatus == that.availabilityStatus && Objects.equals(capacity, that.capacity) && Objects.equals(quantity, that.quantity) && Objects.equals(operatingHrs, that.operatingHrs) && Objects.equals(infrastructureRequests, that.infrastructureRequests);
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(location, that.location) && availabilityStatus == that.availabilityStatus && Objects.equals(capacity, that.capacity) && Objects.equals(quantity, that.quantity) && Objects.equals(operatingHrs, that.operatingHrs);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, location, availabilityStatus, capacity, quantity, operatingHrs, infrastructureRequests);
+        return Objects.hash(id, name, location, availabilityStatus, capacity, quantity, operatingHrs);
     }
 
     @Override
@@ -138,7 +129,6 @@ public class Infrastructure {
                 ", capacity=" + capacity +
                 ", quantity=" + quantity +
                 ", operatingHrs='" + operatingHrs + '\'' +
-                ", infrastructureRequests=" + infrastructureRequests +
                 '}';
     }
 }

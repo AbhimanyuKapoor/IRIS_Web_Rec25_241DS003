@@ -12,7 +12,7 @@ public record InfrastructureRequestDto(
         LocalDateTime requestedAt,
         String timeSlot,
         RequestStatus requestStatus,
-        User user,
+        UUID userId,
         Infrastructure infrastructure
 ) {
 }

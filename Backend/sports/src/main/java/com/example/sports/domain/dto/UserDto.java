@@ -14,7 +14,7 @@ public record UserDto(
         String password,
         String branch,
         Role role,
-        List<EquipmentRequest> equipmentRequests,
-        List<InfrastructureRequest> infrastructureRequests
+        List<EquipmentRequestDto> equipmentRequestDtos,
+        List<InfrastructureRequestDto> infrastructureRequestDtos
 ) {
 }

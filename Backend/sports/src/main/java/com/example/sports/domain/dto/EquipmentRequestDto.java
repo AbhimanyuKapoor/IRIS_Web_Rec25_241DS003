@@ -11,7 +11,7 @@ public record EquipmentRequestDto(
         String comments,
         RequestStatus requestStatus,
         String instructions,
-        User user,
+        UUID userId,
         Equipment equipment
 ) {
 }
