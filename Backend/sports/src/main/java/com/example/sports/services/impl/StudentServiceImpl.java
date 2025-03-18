@@ -9,6 +9,9 @@ import com.example.sports.services.StudentService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+import java.util.UUID;
+
 @Service
 public class StudentServiceImpl implements StudentService {
 
@@ -42,8 +45,19 @@ public class StudentServiceImpl implements StudentService {
                         user.getBranch(),
                         Role.STUDENT,
                         null,
+                        
                         null
-                )));
+                ))
+        );
+    }
+
+    @Override
+    public UserDto getUser(UUID userId) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("userId is Invalid"));
+
+        return UserMapper.INSTANCE.userToUserDto(user);
     }
 }
 

@@ -3,6 +3,7 @@ package com.example.sports.domain.entities;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -15,11 +16,8 @@ public class InfrastructureRequest {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
-    @Column(name = "requested_at", nullable = false)
-    private LocalDateTime requestedAt;
-
-    @Column(name = "time_slot", nullable = false)
-    private String timeSlot;
+    @Column(name = "requested_for", nullable = false)
+    private LocalTime requestedFor;
 
     @Column(name = "request_status", nullable = false)
     private RequestStatus requestStatus;
@@ -30,17 +28,16 @@ public class InfrastructureRequest {
     private User user;
 
     // Infrastructure & InfrastructureRequest Relationship
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "infrastructure_id")
     private Infrastructure infrastructure;
 
     public InfrastructureRequest() {
     }
 
-    public InfrastructureRequest(UUID id, LocalDateTime requestedAt, String timeSlot, RequestStatus requestStatus, User user, Infrastructure infrastructure) {
+    public InfrastructureRequest(UUID id, LocalTime requestedFor, RequestStatus requestStatus, User user, Infrastructure infrastructure) {
         this.id = id;
-        this.requestedAt = requestedAt;
-        this.timeSlot = timeSlot;
+        this.requestedFor = requestedFor;
         this.requestStatus = requestStatus;
         this.user = user;
         this.infrastructure = infrastructure;
@@ -54,20 +51,12 @@ public class InfrastructureRequest {
         this.id = id;
     }
 
-    public LocalDateTime getRequestedAt() {
-        return requestedAt;
+    public LocalTime getRequestedFor() {
+        return requestedFor;
     }
 
-    public void setRequestedAt(LocalDateTime requestedAt) {
-        this.requestedAt = requestedAt;
-    }
-
-    public String getTimeSlot() {
-        return timeSlot;
-    }
-
-    public void setTimeSlot(String timeSlot) {
-        this.timeSlot = timeSlot;
+    public void setRequestedFor(LocalTime requestedFor) {
+        this.requestedFor = requestedFor;
     }
 
     public RequestStatus getRequestStatus() {
@@ -99,20 +88,19 @@ public class InfrastructureRequest {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         InfrastructureRequest that = (InfrastructureRequest) o;
-        return Objects.equals(id, that.id) && Objects.equals(requestedAt, that.requestedAt) && Objects.equals(timeSlot, that.timeSlot) && requestStatus == that.requestStatus && Objects.equals(user, that.user) && Objects.equals(infrastructure, that.infrastructure);
+        return Objects.equals(id, that.id) && Objects.equals(requestedFor, that.requestedFor) && requestStatus == that.requestStatus && Objects.equals(user, that.user) && Objects.equals(infrastructure, that.infrastructure);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, requestedAt, timeSlot, requestStatus, user, infrastructure);
+        return Objects.hash(id, requestedFor, requestStatus, user, infrastructure);
     }
 
     @Override
     public String toString() {
         return "InfrastructureRequest{" +
                 "id=" + id +
-                ", requestedAt=" + requestedAt +
-                ", timeSlot='" + timeSlot + '\'' +
+                ", requestedFor=" + requestedFor +
                 ", requestStatus=" + requestStatus +
                 ", user=" + user +
                 ", infrastructure=" + infrastructure +

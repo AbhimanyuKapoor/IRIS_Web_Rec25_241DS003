@@ -23,26 +23,50 @@ public class EquipmentRequest {
     @Column(name = "instructions")
     private String instructions;
 
+    @Column(name = "quantity")
+    private Integer quantity;
+
+    @Column(name = "duration")
+    private String duration;
+
     // User & EquipmentRequest Relationship
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
     // Equipment & EquipmentRequest Relationship
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "equipment_id")
     private Equipment equipment;
 
     public EquipmentRequest() {
     }
 
-    public EquipmentRequest(UUID id, String comments, RequestStatus requestStatus, String instructions, User user, Equipment equipment) {
+    public EquipmentRequest(UUID id, RequestStatus requestStatus, String comments, String instructions, Integer quantity, String duration, User user, Equipment equipment) {
         this.id = id;
-        this.comments = comments;
         this.requestStatus = requestStatus;
+        this.comments = comments;
         this.instructions = instructions;
+        this.quantity = quantity;
+        this.duration = duration;
         this.user = user;
         this.equipment = equipment;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
     }
 
     public UUID getId() {
@@ -98,12 +122,12 @@ public class EquipmentRequest {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         EquipmentRequest that = (EquipmentRequest) o;
-        return Objects.equals(id, that.id) && requestStatus == that.requestStatus && Objects.equals(comments, that.comments) && Objects.equals(instructions, that.instructions) && Objects.equals(user, that.user) && Objects.equals(equipment, that.equipment);
+        return Objects.equals(id, that.id) && requestStatus == that.requestStatus && Objects.equals(comments, that.comments) && Objects.equals(instructions, that.instructions) && Objects.equals(quantity, that.quantity) && Objects.equals(duration, that.duration) && Objects.equals(user, that.user) && Objects.equals(equipment, that.equipment);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, requestStatus, comments, instructions, user, equipment);
+        return Objects.hash(id, requestStatus, comments, instructions, quantity, duration, user, equipment);
     }
 
     @Override
@@ -113,6 +137,8 @@ public class EquipmentRequest {
                 ", requestStatus=" + requestStatus +
                 ", comments='" + comments + '\'' +
                 ", instructions='" + instructions + '\'' +
+                ", quantity=" + quantity +
+                ", duration='" + duration + '\'' +
                 ", user=" + user +
                 ", equipment=" + equipment +
                 '}';
