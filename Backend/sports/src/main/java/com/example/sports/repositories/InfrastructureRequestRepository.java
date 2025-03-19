@@ -9,4 +9,4 @@ import java.util.UUID;
 public interface InfrastructureRequestRepository extends JpaRepository<InfrastructureRequest, UUID> {
 
     Optional<InfrastructureRequest> findByInfrastructureId(UUID infrastructureId);
-}git add -
+}
