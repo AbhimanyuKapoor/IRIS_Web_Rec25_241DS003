@@ -1,6 +1,5 @@
 package com.example.sports.domain.dto;
 
-import com.example.sports.domain.entities.Equipment;
 import com.example.sports.domain.entities.RequestStatus;
 
 import java.util.UUID;
@@ -13,6 +12,6 @@ public record EquipmentRequestDto(
         Integer quantity,
         String duration,
         UUID userId,
-        Equipment equipment
+        EquipmentDto equipmentDto
 ) {
 }

@@ -30,12 +30,12 @@ public class EquipmentRequest {
     private String duration;
 
     // User & EquipmentRequest Relationship
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "user_id")
     private User user;
 
     // Equipment & EquipmentRequest Relationship
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne()
     @JoinColumn(name = "equipment_id")
     private Equipment equipment;
 

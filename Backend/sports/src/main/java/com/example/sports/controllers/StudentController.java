@@ -1,6 +1,8 @@
 package com.example.sports.controllers;
 
+import com.example.sports.domain.dto.EquipmentRequestDto;
 import com.example.sports.domain.dto.InfrastructureRequestDto;
+import com.example.sports.services.EquipmentRequestService;
 import com.example.sports.services.InfrastructureRequestService;
 import com.example.sports.services.StudentService;
 
@@ -14,12 +16,12 @@ import java.util.UUID;
 @RequestMapping(path = "/student")
 public class StudentController {
 
-    private final StudentService studentService;
     private final InfrastructureRequestService infrastructureRequestService;
+    private final EquipmentRequestService equipmentRequestService;
 
-    public StudentController(StudentService studentService, InfrastructureRequestService infrastructureRequestService) {
-        this.studentService = studentService;
+    public StudentController(StudentService studentService, InfrastructureRequestService infrastructureRequestService, EquipmentRequestService equipmentRequestService) {
         this.infrastructureRequestService = infrastructureRequestService;
+        this.equipmentRequestService = equipmentRequestService;
     }
 
 //    // This is a test
@@ -43,8 +45,24 @@ public class StudentController {
         return new ResponseEntity<>(
                 infrastructureRequestService.createInfrastructureRequest(
                         infrastructureRequestDto,
-                        studentService.getUser(userId),
+                        userId,
                         infrastructureId
+                ), HttpStatus.CREATED
+        );
+    }
+
+    @PostMapping("/equipment/{equipment_id}/equipment-request")
+    public ResponseEntity<EquipmentRequestDto> createEquipmentRequest(
+            @RequestBody EquipmentRequestDto equipmentRequestDto,
+            @RequestAttribute UUID userId,
+            @PathVariable("equipment_id") UUID equipmentId
+    ) {
+
+        return new ResponseEntity<>(
+                equipmentRequestService.createEquipmentRequest(
+                        equipmentRequestDto,
+                        userId,
+                        equipmentId
                 ), HttpStatus.CREATED
         );
     }

@@ -45,7 +45,6 @@ public class StudentServiceImpl implements StudentService {
                         user.getBranch(),
                         Role.STUDENT,
                         null,
-                        
                         null
                 ))
         );

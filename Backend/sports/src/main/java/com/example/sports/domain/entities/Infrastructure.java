@@ -2,6 +2,7 @@ package com.example.sports.domain.entities;
 
 import jakarta.persistence.*;
 
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -30,24 +31,30 @@ public class Infrastructure {
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
-    @Column(name = "operating_hrs")
-    private String operatingHrs;
+    // Operating Hours
+    @Column(name = "opening_time", nullable = false)
+    private LocalTime openingTime;
 
-    // Infrastructure & InfrastructureRequest Relationship
-    // @OneToMany(mappedBy = "infrastructure", cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
-    // private List<InfrastructureRequest> infrastructureRequests;
+    @Column(name = "closing_time", nullable = false)
+    private LocalTime closingTime;
+
+     // Infrastructure & InfrastructureRequest Relationship
+     @OneToMany(mappedBy = "infrastructure", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+     private List<InfrastructureRequest> infrastructureRequests;
 
     public Infrastructure() {
     }
 
-    public Infrastructure(UUID id, String name, String location, AvailabilityStatus availabilityStatus, Integer quantity, Integer capacity, String operatingHrs) {
+    public Infrastructure(UUID id, String name, String location, AvailabilityStatus availabilityStatus, Integer capacity, Integer quantity, LocalTime openingTime, LocalTime closingTime, List<InfrastructureRequest> infrastructureRequests) {
         this.id = id;
         this.name = name;
         this.location = location;
         this.availabilityStatus = availabilityStatus;
-        this.quantity = quantity;
         this.capacity = capacity;
-        this.operatingHrs = operatingHrs;
+        this.quantity = quantity;
+        this.openingTime = openingTime;
+        this.closingTime = closingTime;
+        this.infrastructureRequests = infrastructureRequests;
     }
 
     public UUID getId() {
@@ -98,12 +105,28 @@ public class Infrastructure {
         this.quantity = quantity;
     }
 
-    public String getOperatingHrs() {
-        return operatingHrs;
+    public LocalTime getOpeningTime() {
+        return openingTime;
     }
 
-    public void setOperatingHrs(String operatingHrs) {
-        this.operatingHrs = operatingHrs;
+    public void setOpeningTime(LocalTime openingTime) {
+        this.openingTime = openingTime;
+    }
+
+    public LocalTime getClosingTime() {
+        return closingTime;
+    }
+
+    public void setClosingTime(LocalTime closingTime) {
+        this.closingTime = closingTime;
+    }
+
+    public List<InfrastructureRequest> getInfrastructureRequests() {
+        return infrastructureRequests;
+    }
+
+    public void setInfrastructureRequests(List<InfrastructureRequest> infrastructureRequests) {
+        this.infrastructureRequests = infrastructureRequests;
     }
 
     @Override
@@ -111,12 +134,12 @@ public class Infrastructure {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Infrastructure that = (Infrastructure) o;
-        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(location, that.location) && availabilityStatus == that.availabilityStatus && Objects.equals(capacity, that.capacity) && Objects.equals(quantity, that.quantity) && Objects.equals(operatingHrs, that.operatingHrs);
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(location, that.location) && availabilityStatus == that.availabilityStatus && Objects.equals(capacity, that.capacity) && Objects.equals(quantity, that.quantity) && Objects.equals(openingTime, that.openingTime) && Objects.equals(closingTime, that.closingTime) && Objects.equals(infrastructureRequests, that.infrastructureRequests);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, location, availabilityStatus, capacity, quantity, operatingHrs);
+        return Objects.hash(id, name, location, availabilityStatus, capacity, quantity, openingTime, closingTime, infrastructureRequests);
     }
 
     @Override
@@ -128,7 +151,9 @@ public class Infrastructure {
                 ", availabilityStatus=" + availabilityStatus +
                 ", capacity=" + capacity +
                 ", quantity=" + quantity +
-                ", operatingHrs='" + operatingHrs + '\'' +
+                ", openingTime=" + openingTime +
+                ", closingTime=" + closingTime +
+                ", infrastructureRequests=" + infrastructureRequests +
                 '}';
     }
 }

@@ -2,6 +2,7 @@ package com.example.sports.domain.dto;
 
 import com.example.sports.domain.entities.AvailabilityStatus;
 
+import java.time.LocalTime;
 import java.util.UUID;
 
 public record InfrastructureDto(
@@ -11,6 +12,7 @@ public record InfrastructureDto(
         AvailabilityStatus availabilityStatus,
         Integer quantity,
         Integer capacity,
-        String operatingHrs
+        LocalTime openingTime,
+        LocalTime closingTime
 ) {
 }

@@ -30,20 +30,21 @@ public class Equipment {
     @Column(name = "condition")
     private String condition;
 
-    // Equipment & EquipmentRequest Relationship
-    // @OneToMany(mappedBy = "equipment", cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
-    // private List<EquipmentRequest> equipmentRequests;
+     // Equipment & EquipmentRequest Relationship
+     @OneToMany(mappedBy = "equipment", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+     private List<EquipmentRequest> equipmentRequests;
 
     public Equipment() {
     }
 
-    public Equipment(UUID id, String name, String category, AvailabilityStatus availabilityStatus, Integer quantity, String condition) {
+    public Equipment(UUID id, String name, String category, AvailabilityStatus availabilityStatus, Integer quantity, String condition, List<EquipmentRequest> equipmentRequests) {
         this.id = id;
         this.name = name;
         this.category = category;
         this.availabilityStatus = availabilityStatus;
         this.quantity = quantity;
         this.condition = condition;
+        this.equipmentRequests = equipmentRequests;
     }
 
     public UUID getId() {
@@ -94,17 +95,25 @@ public class Equipment {
         this.condition = condition;
     }
 
+    public List<EquipmentRequest> getEquipmentRequests() {
+        return equipmentRequests;
+    }
+
+    public void setEquipmentRequests(List<EquipmentRequest> equipmentRequests) {
+        this.equipmentRequests = equipmentRequests;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Equipment equipment = (Equipment) o;
-        return Objects.equals(id, equipment.id) && Objects.equals(name, equipment.name) && Objects.equals(category, equipment.category) && availabilityStatus == equipment.availabilityStatus && Objects.equals(quantity, equipment.quantity) && Objects.equals(condition, equipment.condition);
+        return Objects.equals(id, equipment.id) && Objects.equals(name, equipment.name) && Objects.equals(category, equipment.category) && availabilityStatus == equipment.availabilityStatus && Objects.equals(quantity, equipment.quantity) && Objects.equals(condition, equipment.condition) && Objects.equals(equipmentRequests, equipment.equipmentRequests);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, category, availabilityStatus, quantity, condition);
+        return Objects.hash(id, name, category, availabilityStatus, quantity, condition, equipmentRequests);
     }
 
     @Override
@@ -116,6 +125,7 @@ public class Equipment {
                 ", availabilityStatus=" + availabilityStatus +
                 ", quantity=" + quantity +
                 ", condition='" + condition + '\'' +
+                ", equipmentRequests=" + equipmentRequests +
                 '}';
     }
 }

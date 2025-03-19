@@ -11,8 +11,10 @@ import com.example.sports.mappers.UserMapper;
 import com.example.sports.repositories.InfrastructureRepository;
 import com.example.sports.repositories.InfrastructureRequestRepository;
 import com.example.sports.services.InfrastructureRequestService;
+import com.example.sports.services.StudentService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Service
@@ -20,25 +22,24 @@ public class InfrastructureRequestServiceImpl implements InfrastructureRequestSe
 
     private final InfrastructureRequestRepository infrastructureRequestRepository;
     private final InfrastructureRepository infrastructureRepository;
+    private final StudentService studentService;
 
-    public InfrastructureRequestServiceImpl(InfrastructureRequestRepository infrastructureRequestRepository, InfrastructureRepository infrastructureRepository) {
+    public InfrastructureRequestServiceImpl(InfrastructureRequestRepository infrastructureRequestRepository, InfrastructureRepository infrastructureRepository, StudentService studentService) {
         this.infrastructureRequestRepository = infrastructureRequestRepository;
         this.infrastructureRepository = infrastructureRepository;
+        this.studentService = studentService;
     }
 
     @Override
     public InfrastructureRequestDto createInfrastructureRequest(
             InfrastructureRequestDto infrastructureRequestDto,
-            UserDto userDto,
+            UUID userId,
             UUID infrastructureId
     ) {
 
+        User user = UserMapper.INSTANCE.userDtoToUser(studentService.getUser(userId));
         Infrastructure infrastructure = infrastructureRepository.findById(infrastructureId)
-                .orElse(null);
-
-        // orELse error: temporary testing, null
-
-        User user = UserMapper.INSTANCE.userDtoToUser(userDto);
+                .orElseThrow(() -> new IllegalArgumentException("Infrastructure Does Not Exist"));
 
         // Null Check
 
@@ -46,6 +47,7 @@ public class InfrastructureRequestServiceImpl implements InfrastructureRequestSe
                 infrastructureRequestRepository.save(new InfrastructureRequest(
                         null,
                         infrastructureRequestDto.requestedFor(),
+                        LocalDate.now(),
                         RequestStatus.PENDING_APPROVAL,
                         user,
                         infrastructure

@@ -6,13 +6,15 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(uses = InfrastructureMapper.class)
 public interface InfrastructureRequestMapper {
     InfrastructureRequestMapper INSTANCE = Mappers.getMapper(InfrastructureRequestMapper.class);
 
+    @Mapping(target = "infrastructureDto", source = "infrastructure")
     @Mapping(target = "userId", source = "user.id")
     InfrastructureRequestDto toDto (InfrastructureRequest infrastructureRequest);
 
+    @Mapping(target = "infrastructure", source = "infrastructureDto")
     @Mapping(target = "user", ignore = true)
     InfrastructureRequest fromDto(InfrastructureRequestDto infrastructureRequestDto);
 }

@@ -7,5 +7,5 @@ import java.util.UUID;
 
 public interface InfrastructureRequestService {
 
-    InfrastructureRequestDto createInfrastructureRequest(InfrastructureRequestDto infrastructureRequestDto, UserDto userDto, UUID infrastructureId);
+    InfrastructureRequestDto createInfrastructureRequest(InfrastructureRequestDto infrastructureRequestDto, UUID userId, UUID infrastructureId);
 }
