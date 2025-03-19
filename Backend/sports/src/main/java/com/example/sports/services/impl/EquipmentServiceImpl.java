@@ -3,13 +3,15 @@ package com.example.sports.services.impl;
 import com.example.sports.domain.dto.EquipmentDto;
 import com.example.sports.domain.entities.*;
 import com.example.sports.mappers.EquipmentMapper;
-import com.example.sports.mappers.InfrastructureRequestMapper;
-import com.example.sports.mappers.UserMapper;
 import com.example.sports.repositories.EquipmentRepository;
 import com.example.sports.services.EquipmentService;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class EquipmentServiceImpl implements EquipmentService {
@@ -36,5 +38,39 @@ public class EquipmentServiceImpl implements EquipmentService {
                         null
                 ))
         );
+    }
+
+    @Override
+    public EquipmentDto updateEquipment(UUID equipmentId, EquipmentDto equipmentDto) {
+
+        if(null == equipmentId)
+            throw new IllegalArgumentException("Equipment must have an ID");
+
+        Equipment existingEquipment = equipmentRepository.findById(equipmentId).orElseThrow(() ->
+                new IllegalArgumentException("Equipment not found"));
+
+        // Partial Update for availabilityStatus & quantity
+        if(equipmentDto.availabilityStatus() != null)
+            existingEquipment.setAvailabilityStatus(equipmentDto.availabilityStatus());
+        if(equipmentDto.quantity() != null)
+            existingEquipment.setQuantity(equipmentDto.quantity());
+
+        // if(equipmentDto.condition() != null && !equipmentDto.condition().isBlank())
+        //    existingEquipment.setCondition(equipmentDto.condition());
+
+        return EquipmentMapper.INSTANCE.toDto(equipmentRepository.save(existingEquipment));
+    }
+
+    @Override
+    public List<EquipmentDto> getAllEquipment() {
+        return equipmentRepository.findAll()
+                .stream()
+                .map(EquipmentMapper.INSTANCE::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteEquipment(UUID equipmentId) {
+        equipmentRepository.deleteById(equipmentId);
     }
 }

@@ -23,12 +23,6 @@ public class AdminController {
         this.infrastructureService = infrastructureService;
     }
 
-//    // This is a test
-//    @GetMapping(path = "/hello")
-//    public String sayHello() {
-//        return "Hello from Secure Endpoint";
-//    }
-
     @PostMapping("/equipment")
     public ResponseEntity<EquipmentDto> addEquipment(@RequestBody EquipmentDto equipmentDto) {
         return new ResponseEntity<>(equipmentService.addEquipment(equipmentDto), HttpStatus.CREATED);
@@ -37,5 +31,31 @@ public class AdminController {
     @PostMapping("/infrastructure")
     public ResponseEntity<InfrastructureDto> addInfrastructure(@RequestBody InfrastructureDto infrastructureDto) {
         return new ResponseEntity<>(infrastructureService.addInfrastructure(infrastructureDto), HttpStatus.CREATED);
+    }
+
+    @PatchMapping("/equipment/{equipment_id}")
+    public ResponseEntity<EquipmentDto> updateEquipment(
+            @PathVariable("equipment_id") UUID equipmentId,
+            @RequestBody EquipmentDto equipmentDto
+    ) {
+        return new ResponseEntity<>(equipmentService.updateEquipment(equipmentId, equipmentDto), HttpStatus.OK);
+    }
+
+    @PatchMapping("/infrastructure/{infrastructure_id}")
+    public ResponseEntity<InfrastructureDto> updateInfrastructure(
+            @PathVariable("infrastructure_id") UUID infrastructureId,
+            @RequestBody InfrastructureDto infrastructureDto
+    ) {
+        return new ResponseEntity<>(infrastructureService.updateInfrastructure(infrastructureId, infrastructureDto), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/equipment/{equipment_id}")
+    public void deleteEquipment(@PathVariable("equipment_id") UUID equipmentId) {
+        equipmentService.deleteEquipment(equipmentId);
+    }
+
+    @DeleteMapping("/infrastructure/{infrastructure_id}")
+    public void deleteInfrastructure(@PathVariable("infrastructure_id") UUID infrastructureId) {
+        infrastructureService.deleteInfrastructure(infrastructureId);
     }
 }
