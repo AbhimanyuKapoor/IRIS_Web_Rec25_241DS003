@@ -24,17 +24,6 @@ public class StudentController {
         this.equipmentRequestService = equipmentRequestService;
     }
 
-//    // This is a test
-//    @GetMapping(path = "/hello")
-//    public String sayHello() {
-//        return "Hello from Secure Endpoint";
-//    }
-//
-//    @GetMapping("/me")
-//    public UserDto getUser(@RequestAttribute UUID userId) {
-//        return studentService.getUser(userId);
-//    }
-
     @PostMapping("/infrastructure/{infrastructure_id}/infrastructure-request")
     public ResponseEntity<InfrastructureRequestDto> createInfrastructureRequest(
             @RequestBody InfrastructureRequestDto infrastructureRequestDto,

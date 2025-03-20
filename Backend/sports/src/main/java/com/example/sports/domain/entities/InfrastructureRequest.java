@@ -25,6 +25,9 @@ public class InfrastructureRequest {
     @Column(name = "request_status", nullable = false)
     private RequestStatus requestStatus;
 
+    @Column(name = "reminder_sent", nullable = false)
+    private Boolean reminderSent;
+
     // User & InfrastructureRequest Relationship
     @ManyToOne()
     @JoinColumn(name = "user_id")
@@ -38,11 +41,12 @@ public class InfrastructureRequest {
     public InfrastructureRequest() {
     }
 
-    public InfrastructureRequest(UUID id, LocalTime requestedFor, LocalDate requestedOn, RequestStatus requestStatus, User user, Infrastructure infrastructure) {
+    public InfrastructureRequest(UUID id, LocalTime requestedFor, LocalDate requestedOn, RequestStatus requestStatus, Boolean reminderSent, User user, Infrastructure infrastructure) {
         this.id = id;
         this.requestedFor = requestedFor;
         this.requestedOn = requestedOn;
         this.requestStatus = requestStatus;
+        this.reminderSent = reminderSent;
         this.user = user;
         this.infrastructure = infrastructure;
     }
@@ -79,6 +83,14 @@ public class InfrastructureRequest {
         this.requestStatus = requestStatus;
     }
 
+    public Boolean getReminderSent() {
+        return reminderSent;
+    }
+
+    public void setReminderSent(Boolean reminderSent) {
+        this.reminderSent = reminderSent;
+    }
+
     public User getUser() {
         return user;
     }
@@ -100,12 +112,12 @@ public class InfrastructureRequest {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         InfrastructureRequest that = (InfrastructureRequest) o;
-        return Objects.equals(id, that.id) && Objects.equals(requestedFor, that.requestedFor) && Objects.equals(requestedOn, that.requestedOn) && requestStatus == that.requestStatus && Objects.equals(user, that.user) && Objects.equals(infrastructure, that.infrastructure);
+        return Objects.equals(id, that.id) && Objects.equals(requestedFor, that.requestedFor) && Objects.equals(requestedOn, that.requestedOn) && requestStatus == that.requestStatus && Objects.equals(reminderSent, that.reminderSent) && Objects.equals(user, that.user) && Objects.equals(infrastructure, that.infrastructure);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, requestedFor, requestedOn, requestStatus, user, infrastructure);
+        return Objects.hash(id, requestedFor, requestedOn, requestStatus, reminderSent, user, infrastructure);
     }
 
     @Override
@@ -115,6 +127,7 @@ public class InfrastructureRequest {
                 ", requestedFor=" + requestedFor +
                 ", requestedOn=" + requestedOn +
                 ", requestStatus=" + requestStatus +
+                ", reminderSent=" + reminderSent +
                 ", user=" + user +
                 ", infrastructure=" + infrastructure +
                 '}';

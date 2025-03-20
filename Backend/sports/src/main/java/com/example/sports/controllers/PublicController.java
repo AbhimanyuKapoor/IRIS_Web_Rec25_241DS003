@@ -31,5 +31,4 @@ public class PublicController {
     public List<InfrastructureDto> getAllInfrastructure() {
         return infrastructureService.getAllInfrastructure();
     }
-
 }

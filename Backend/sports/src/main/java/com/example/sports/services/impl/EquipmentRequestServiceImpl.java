@@ -36,12 +36,16 @@ public class EquipmentRequestServiceImpl implements EquipmentRequestService {
         Equipment equipment = equipmentRepository.findById(equipmentId)
                 .orElseThrow(() -> new IllegalArgumentException("Equipment Does Not Exist"));
 
-        // Null Check
+        if(equipmentRequestDto.quantity() > equipment.getQuantity())
+            throw new IllegalArgumentException("Cannot Request for more than Available");
+
+        if(equipment.getAvailabilityStatus() != AvailabilityStatus.AVAILABLE)
+            throw new IllegalArgumentException("Equipment is currently Unavailable");
 
         return EquipmentRequestMapper.INSTANCE.toDto(
                 equipmentRequestRepository.save(new EquipmentRequest(
                         null,
-                        RequestStatus.PENDING_APPROVAL,
+                        RequestStatus.PENDING,
                         null,
                         null,
                         equipmentRequestDto.quantity(),
@@ -50,5 +54,46 @@ public class EquipmentRequestServiceImpl implements EquipmentRequestService {
                         equipment
                 ))
         );
+    }
+
+    @Override
+    public EquipmentRequestDto updateEquipmentRequest(UUID equipmentRequestId, EquipmentRequestDto equipmentRequestDto, boolean calledByAdmin) {
+
+        if(null == equipmentRequestId)
+            throw new IllegalArgumentException("Equipment Request must have an ID");
+
+        EquipmentRequest existingEquipmentRequest = equipmentRequestRepository.findById(equipmentRequestId).orElseThrow(() ->
+                new IllegalArgumentException("Equipment Request not found"));
+
+        // Partial Update for requestStatus, comments & instructions
+        if(equipmentRequestDto.requestStatus() != null)
+            existingEquipmentRequest.setRequestStatus(equipmentRequestDto.requestStatus());
+        if(equipmentRequestDto.comments() != null && !equipmentRequestDto.comments().isBlank())
+            existingEquipmentRequest.setComments(equipmentRequestDto.comments());
+        if(equipmentRequestDto.instructions() != null && !equipmentRequestDto.instructions().isBlank())
+            existingEquipmentRequest.setInstructions(equipmentRequestDto.instructions());
+
+        if(calledByAdmin) {
+            if(existingEquipmentRequest.getRequestStatus() == RequestStatus.APPROVED) {
+
+                Equipment existingEquipment = getEquipment(existingEquipmentRequest);
+                equipmentRepository.save(existingEquipment);
+            }
+        }
+
+        return EquipmentRequestMapper.INSTANCE.toDto(equipmentRequestRepository.save(existingEquipmentRequest));
+    }
+
+    private static Equipment getEquipment(EquipmentRequest existingEquipmentRequest) {
+        Equipment existingEquipment = existingEquipmentRequest.getEquipment();
+
+        existingEquipment.setQuantity(existingEquipment.getQuantity() - existingEquipmentRequest.getQuantity());
+
+        if(existingEquipment.getQuantity() < 0)
+            throw new IllegalArgumentException("Cannot approve more Equipment than Available");
+        if(existingEquipment.getQuantity() == 0)
+            existingEquipment.setAvailabilityStatus(AvailabilityStatus.UNAVAILABLE);
+
+        return existingEquipment;
     }
 }

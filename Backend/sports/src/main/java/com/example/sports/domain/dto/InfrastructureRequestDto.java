@@ -11,6 +11,7 @@ public record InfrastructureRequestDto(
         LocalTime requestedFor,
         LocalDate requestedOn,
         RequestStatus requestStatus,
+        Boolean reminderSent,
         UUID userId,
         InfrastructureDto infrastructureDto
 ) {
