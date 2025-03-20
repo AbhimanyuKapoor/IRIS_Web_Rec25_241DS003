@@ -11,6 +11,4 @@ public interface InfrastructureRequestService {
     InfrastructureRequestDto createInfrastructureRequest(InfrastructureRequestDto infrastructureRequestDto, UUID userId, UUID infrastructureId);
 
     InfrastructureRequestDto updateInfrastructureRequest(UUID infrastructureRequestId, InfrastructureRequestDto infrastructureRequestDto, boolean calledByAdmin);
-
-    // List<InfrastructureRequestDto> getUpcomingBookings();
 }
