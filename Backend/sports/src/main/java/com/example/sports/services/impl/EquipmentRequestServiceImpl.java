@@ -7,7 +7,7 @@ import com.example.sports.mappers.UserMapper;
 import com.example.sports.repositories.EquipmentRepository;
 import com.example.sports.repositories.EquipmentRequestRepository;
 import com.example.sports.services.EquipmentRequestService;
-import com.example.sports.services.StudentService;
+import com.example.sports.services.UserService;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -15,12 +15,12 @@ import java.util.UUID;
 @Service
 public class EquipmentRequestServiceImpl implements EquipmentRequestService {
 
-    private final StudentService studentService;
+    private final UserService userService;
     private final EquipmentRepository equipmentRepository;
     private final EquipmentRequestRepository equipmentRequestRepository;
 
-    public EquipmentRequestServiceImpl(StudentService studentService, EquipmentRepository equipmentRepository, EquipmentRequestRepository equipmentRequestRepository) {
-        this.studentService = studentService;
+    public EquipmentRequestServiceImpl(UserService userService, EquipmentRepository equipmentRepository, EquipmentRequestRepository equipmentRequestRepository) {
+        this.userService = userService;
         this.equipmentRepository = equipmentRepository;
         this.equipmentRequestRepository = equipmentRequestRepository;
     }
@@ -32,7 +32,7 @@ public class EquipmentRequestServiceImpl implements EquipmentRequestService {
             UUID equipmentId
     ) {
 
-        User user = UserMapper.INSTANCE.userDtoToUser(studentService.getUser(userId));
+        User user = UserMapper.INSTANCE.userDtoToUser(userService.getUser(userId));
         Equipment equipment = equipmentRepository.findById(equipmentId)
                 .orElseThrow(() -> new IllegalArgumentException("Equipment Does Not Exist"));
 

@@ -4,8 +4,7 @@ import com.example.sports.domain.dto.AuthResponse;
 import com.example.sports.domain.dto.LoginRequest;
 import com.example.sports.domain.dto.UserDto;
 import com.example.sports.services.AuthenticationService;
-import com.example.sports.services.StudentService;
-import org.springframework.http.HttpStatus;
+import com.example.sports.services.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -15,16 +14,16 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final AuthenticationService authenticationService;
-    private final StudentService studentService;
+    private final UserService userService;
 
-    public AuthController(AuthenticationService authenticationService, StudentService studentService) {
+    public AuthController(AuthenticationService authenticationService, UserService userService) {
         this.authenticationService = authenticationService;
-        this.studentService = studentService;
+        this.userService = userService;
     }
 
     @PostMapping(path = "/signup")
     public ResponseEntity<AuthResponse> createUser(@RequestBody UserDto userDto) {
-        UserDto createdUserDto = studentService.createUser(userDto);
+        UserDto createdUserDto = userService.createUser(userDto);
 
         UserDetails userDetails = authenticationService.authenticate(
                 userDto.email(),

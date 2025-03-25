@@ -4,7 +4,6 @@ import com.example.sports.domain.dto.EquipmentRequestDto;
 import com.example.sports.domain.dto.InfrastructureRequestDto;
 import com.example.sports.services.EquipmentRequestService;
 import com.example.sports.services.InfrastructureRequestService;
-import com.example.sports.services.StudentService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +18,7 @@ public class StudentController {
     private final InfrastructureRequestService infrastructureRequestService;
     private final EquipmentRequestService equipmentRequestService;
 
-    public StudentController(StudentService studentService, InfrastructureRequestService infrastructureRequestService, EquipmentRequestService equipmentRequestService) {
+    public StudentController(InfrastructureRequestService infrastructureRequestService, EquipmentRequestService equipmentRequestService) {
         this.infrastructureRequestService = infrastructureRequestService;
         this.equipmentRequestService = equipmentRequestService;
     }

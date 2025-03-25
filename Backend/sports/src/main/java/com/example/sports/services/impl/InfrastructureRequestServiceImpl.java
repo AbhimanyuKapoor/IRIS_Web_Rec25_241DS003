@@ -7,26 +7,23 @@ import com.example.sports.mappers.UserMapper;
 import com.example.sports.repositories.InfrastructureRepository;
 import com.example.sports.repositories.InfrastructureRequestRepository;
 import com.example.sports.services.InfrastructureRequestService;
-import com.example.sports.services.NotificationService;
-import com.example.sports.services.StudentService;
+import com.example.sports.services.UserService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class InfrastructureRequestServiceImpl implements InfrastructureRequestService {
 
     private final InfrastructureRequestRepository infrastructureRequestRepository;
     private final InfrastructureRepository infrastructureRepository;
-    private final StudentService studentService;
+    private final UserService userService;
 
-    public InfrastructureRequestServiceImpl(InfrastructureRequestRepository infrastructureRequestRepository, InfrastructureRepository infrastructureRepository, StudentService studentService) {
+    public InfrastructureRequestServiceImpl(InfrastructureRequestRepository infrastructureRequestRepository, InfrastructureRepository infrastructureRepository, UserService userService) {
         this.infrastructureRequestRepository = infrastructureRequestRepository;
         this.infrastructureRepository = infrastructureRepository;
-        this.studentService = studentService;
+        this.userService = userService;
     }
 
     @Override
@@ -36,7 +33,7 @@ public class InfrastructureRequestServiceImpl implements InfrastructureRequestSe
             UUID infrastructureId
     ) {
 
-        User user = UserMapper.INSTANCE.userDtoToUser(studentService.getUser(userId));
+        User user = UserMapper.INSTANCE.userDtoToUser(userService.getUser(userId));
         Infrastructure infrastructure = infrastructureRepository.findById(infrastructureId)
                 .orElseThrow(() -> new IllegalArgumentException("Infrastructure Does Not Exist"));
 

@@ -5,20 +5,19 @@ import com.example.sports.domain.entities.Role;
 import com.example.sports.domain.entities.User;
 import com.example.sports.mappers.UserMapper;
 import com.example.sports.repositories.UserRepository;
-import com.example.sports.services.StudentService;
+import com.example.sports.services.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class StudentServiceImpl implements StudentService {
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public StudentServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }

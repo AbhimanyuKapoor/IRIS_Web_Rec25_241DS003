@@ -21,15 +21,15 @@ public class AdminController {
     private final EquipmentRequestService equipmentRequestService;
     private final InfrastructureRequestService infrastructureRequestService;
     private final NotificationService notificationService;
-    private final StudentService studentService;
+    private final UserService userService;
 
-    public AdminController(EquipmentService equipmentService, InfrastructureService infrastructureService, EquipmentRequestService equipmentRequestService, InfrastructureRequestService infrastructureRequestService, NotificationService notificationService, StudentService studentService) {
+    public AdminController(EquipmentService equipmentService, InfrastructureService infrastructureService, EquipmentRequestService equipmentRequestService, InfrastructureRequestService infrastructureRequestService, NotificationService notificationService, UserService userService) {
         this.equipmentService = equipmentService;
         this.infrastructureService = infrastructureService;
         this.equipmentRequestService = equipmentRequestService;
         this.infrastructureRequestService = infrastructureRequestService;
         this.notificationService = notificationService;
-        this.studentService = studentService;
+        this.userService = userService;
     }
 
     @PostMapping("/equipment")
@@ -79,7 +79,7 @@ public class AdminController {
                 true
         );
 
-        String userEmail = studentService.getUser(updatedEquipmentRequestDto.userId()).email();
+        String userEmail = userService.getUser(updatedEquipmentRequestDto.userId()).email();
 
         if(updatedEquipmentRequestDto.requestStatus() == RequestStatus.APPROVED) {
             notificationService.sendNotification(
@@ -109,7 +109,7 @@ public class AdminController {
                 true
         );
 
-        String userEmail = studentService.getUser(updatedInfraRequestDto.userId()).email();
+        String userEmail = userService.getUser(updatedInfraRequestDto.userId()).email();
 
         if (updatedInfraRequestDto.requestStatus() == RequestStatus.APPROVED) {
             notificationService.loadUpcomingBookingsIntoCache();

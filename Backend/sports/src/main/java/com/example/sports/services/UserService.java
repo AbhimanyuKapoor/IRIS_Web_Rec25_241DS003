@@ -2,10 +2,9 @@ package com.example.sports.services;
 
 import com.example.sports.domain.dto.UserDto;
 
-import java.util.Optional;
 import java.util.UUID;
 
-public interface StudentService {
+public interface UserService {
 
     UserDto createUser(UserDto userDto);
 

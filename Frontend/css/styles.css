@@ -1,0 +1,247 @@
+body {
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 100px;
+  height: 100vh;
+  box-sizing: border-box;
+
+  /*Removed Default Margin to prevent unwanted overflow of content*/
+  margin: 0px;
+}
+ul {
+  width: 100%;
+  position: fixed;
+  display: inline;
+  background-color: #1a1a1a;
+  list-style-type: none;
+  /* box-shadow: 0px 5px 10px 4px #1a1a1a; */
+  height: 80px;
+  min-width: 600px;
+
+  /*Removed Default Margin for Navbar to be at the top of Page*/
+  margin: 0;
+  top: 0;
+}
+li {
+  font-size: 30px;
+  text-decoration: none;
+  transition: 1s color;
+  color: gray;
+  line-height: 75px;
+}
+.container {
+  /*Prevent elements from getting out of screen vertically*/
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+}
+.generalTxt {
+  font-family: Arial, sans-serif;
+  font-size: 1.5rem;
+  color: white;
+  font-weight: bold;
+  white-space: nowrap;
+  max-width: 250px;
+  overflow-x: auto;
+}
+.appBtn {
+  padding: 15px 100px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: none;
+  font-size: 1rem;
+  color: white;
+  background-color: rgb(3, 111, 234);
+}
+.navBtn {
+  padding: 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: none;
+  font-size: 1rem;
+  color: white;
+  margin-right: 40px;
+  background-color: rgb(3, 111, 234);
+}
+.inputTextBoxes {
+  margin-bottom: 20px;
+  background-color: rgb(64, 63, 70);
+  color: rgb(161, 161, 166);
+  border-radius: 10px;
+  padding: 20px;
+  font-size: 1rem;
+  min-height: 25px;
+  min-width: 300px;
+  border: none;
+  outline: none;
+}
+#backBtn {
+  color: white;
+  background-color: rgb(64, 63, 70);
+  border-radius: 10px;
+  padding: 20px 35px;
+  margin-right: 20px;
+}
+#editBtn {
+  color: white;
+  background-color: rgb(64, 63, 70);
+  border-radius: 10px;
+  padding: 20px 35px;
+  margin-right: 20px;
+}
+#deleteBtn {
+  color: white;
+  background-color: rgb(203, 16, 80);
+  border-radius: 10px;
+  padding: 20px 35px;
+  margin-left: 20px;
+}
+.headElements {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  /*Equally spaced contents within the flex container*/
+  /*justify-content: space-between;*/
+}
+.details {
+  border-top-style: solid;
+  border-color: rgb(64, 63, 70);
+  display: flex;
+  margin: 20px;
+  margin-top: 0px;
+  padding-top: 20px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  font-family: Arial, sans-serif;
+  font-size: 1rem;
+  color: white;
+  cursor: pointer;
+}
+.equipmentContainer {
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+.equipment {
+  padding: 20px;
+  border-style: solid;
+  border-color: rgb(64, 63, 70);
+  border-radius: 10px;
+  margin: 20px;
+}
+.detailsContainer {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 20px 0;
+  background-color: rgb(23, 23, 25);
+  display: flex;
+  flex-direction: column;
+  border-style: solid;
+  border-color: rgb(64, 63, 70);
+  border-radius: 10px;
+}
+.detailsBtn {
+  color: white;
+  cursor: pointer;
+}
+.detailsBtn:hover {
+  color: rgb(161, 161, 166);
+}
+input[type="checkbox"] {
+  cursor: pointer;
+}
+.detailsTxt {
+  width: 80px;
+  text-align: center;
+  white-space: nowrap;
+  overflow-x: auto;
+}
+.detailsHeader {
+  display: flex;
+  flex-direction: row;
+  margin: 10px 20px;
+  margin-top: 0px;
+
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 10px;
+  color: rgb(135, 134, 137);
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  padding: 10px;
+  font-size: 1rem;
+  background-color: rgb(38, 38, 41);
+}
+/* .toast {
+  min-width: 100px;
+  color: white;
+  text-align: center;
+  border-radius: 2px;
+  padding: 15px 100px;
+  position: fixed;
+  font-size: 1rem;
+  z-index: 1;
+  top: 30px;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+} */
+/* #errorMessage {
+  background-color: #d32f2f;
+} */
+::-webkit-scrollbar {
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  border-radius: 5px;
+  background: black;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background: rgb(64, 63, 70);
+}
+/* @-webkit-keyframes fadein {
+  from {
+    top: 0;
+    opacity: 0;
+  }
+  to {
+    top: 30px;
+    opacity: 1;
+  }
+}
+@keyframes fadein {
+  from {
+    top: 0;
+    opacity: 0;
+  }
+  to {
+    top: 30px;
+    opacity: 1;
+  }
+}
+@-webkit-keyframes fadeout {
+  from {
+    top: 30px;
+    opacity: 1;
+  }
+  to {
+    top: 0;
+    opacity: 0;
+  }
+}
+@keyframes fadeout {
+  from {
+    top: 30px;
+    opacity: 1;
+  }
+  to {
+    top: 0;
+    opacity: 0;
+  }
+} */

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sports Infra Management</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <script
+      src="https://kit.fontawesome.com/abf1908db8.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <ul>
+      <li style="float: left">
+        <button class="navBtn">Equipment</button>
+      </li>
+      <li style="float: left">
+        <button class="navBtn">Infrastructure</button>
+      </li>
+      <li style="float: left">
+        <button class="navBtn">Requests</button>
+      </li>
+      <li style="float: right">
+        <button class="navBtn">Logout</button>
+      </li>
+    </ul>
+
+    <div class="container">
+      <div class="headElements">
+        <a href="index.html"
+          ><i class="fa-solid fa-arrow-left" id="backBtn"></i
+        ></a>
+        <p class="generalTxt">Add Infrastructure</p>
+      </div>
+
+      <!-- <input class="inputTextBoxes" placeholder="Name" />
+      <input class="inputTextBoxes" placeholder="Category" />
+      <input class="inputTextBoxes" placeholder="Condition" />
+      <input
+        class="inputTextBoxes"
+        type="number"
+        placeholder="Quantity"
+      />
+
+      <select class="inputTextBoxes">
+        <option value="AVAILABLE" selected>Available</option>
+        <option value="UNAVAILABLE">Unavailable</option>
+        <option value="UNDER_MAINTENANCE">Under Maintenance</option>
+      </select>
+
+      <button class="appBtn" onclick="">Add Equipment</button> -->
+
+      <input class="inputTextBoxes" placeholder="Name" />
+      <input class="inputTextBoxes" placeholder="Location" />
+      <input class="inputTextBoxes" type="number" placeholder="Capacity" />
+      <input class="inputTextBoxes" type="number" placeholder="Quantity" />
+
+      <input class="inputTextBoxes" type="time" />
+      <input class="inputTextBoxes" type="time" />
+
+      <select class="inputTextBoxes">
+        <option value="AVAILABLE" selected>Available</option>
+        <option value="UNAVAILABLE">Unavailable</option>
+        <option value="UNDER_MAINTENANCE">Under Maintenance</option>
+      </select>
+
+      <button class="appBtn" onclick="">Add Infrastructure</button>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/equipment.js"></script>
+  </body>
+</html>
