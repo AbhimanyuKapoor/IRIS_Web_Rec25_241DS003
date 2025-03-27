@@ -22,7 +22,7 @@
         <button class="navBtn">Requests</button>
       </li>
       <li style="float: right">
-        <button class="navBtn">Logout</button>
+        <button class="navBtn" onclick="logout()">Logout</button>
       </li>
     </ul>
 
@@ -65,7 +65,9 @@
         <option value="UNDER_MAINTENANCE">Under Maintenance</option>
       </select>
 
-      <button class="appBtn" onclick="">Add Infrastructure</button>
+      <button class="appBtn" onclick="addInfrastructure()">
+        Add Infrastructure
+      </button>
     </div>
 
     <script src="js/auth.js"></script>

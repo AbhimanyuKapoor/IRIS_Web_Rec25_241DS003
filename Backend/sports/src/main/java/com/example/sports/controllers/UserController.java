@@ -5,15 +5,13 @@ import com.example.sports.repositories.UserRepository;
 import com.example.sports.services.UserService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
 // To get details about the authenticated User
 
+@CrossOrigin(origins = "*") // Enables CORS, Remove After Testing
 @RestController
 @RequestMapping(path = "/user")
 public class UserController {

@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "*") // Enables CORS, Remove After Testing
 @RestController
 @RequestMapping(path = "/auth")
 public class AuthController {

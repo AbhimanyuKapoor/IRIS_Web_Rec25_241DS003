@@ -26,14 +26,17 @@ public class UserServiceImpl implements UserService {
     public UserDto createUser(UserDto userDto) {
         User user = UserMapper.INSTANCE.userDtoToUser(userDto);
 
-        if(null != user.getId())
+        // Null Checks
+        if(user.getId() != null)
             throw new IllegalArgumentException("User already has an Id");
-        if(null == user.getName() || user.getName().isBlank())
+        if(user.getName() == null || user.getName().isBlank())
             throw new IllegalArgumentException("User name must be specified");
-        if(null == user.getEmail() || user.getEmail().isBlank())
+        if(user.getEmail() == null || user.getEmail().isBlank())
             throw new IllegalArgumentException("User email must be specified");
-        if(null == user.getPassword() || user.getPassword().isBlank())
+        if(user.getPassword() == null || user.getPassword().isBlank())
             throw new IllegalArgumentException("User must provide a password");
+        if(userRepository.findByEmail(user.getEmail()).isPresent())
+            throw new IllegalArgumentException("User email already exists");
 
         return UserMapper.INSTANCE.userToUserDto(
                 userRepository.save(new User(

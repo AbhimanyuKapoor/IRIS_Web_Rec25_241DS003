@@ -23,6 +23,18 @@ public class InfrastructureServiceImpl implements InfrastructureService {
     @Override
     public InfrastructureDto addInfrastructure(InfrastructureDto infrastructureDto) {
 
+        // Null Checks
+        if(infrastructureDto.name() == null || infrastructureDto.name().isBlank())
+            throw new IllegalArgumentException("Infrastructure name must be specified");
+        if(infrastructureDto.availabilityStatus() == null)
+            throw new IllegalArgumentException("Infrastructure Availability Status must be specified");
+        if(infrastructureDto.quantity() == null)
+            throw new IllegalArgumentException("Infrastructure quantity must be specified");
+        if(infrastructureDto.openingTime() == null)
+            throw new IllegalArgumentException("Infrastructure opening time must be specified");
+        if(infrastructureDto.closingTime() == null)
+            throw new IllegalArgumentException("Infrastructure closing time must be specified");
+
         return InfrastructureMapper.INSTANCE.toDto(
                 infrastructureRepository.save(new Infrastructure(
                         null,

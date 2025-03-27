@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
+@CrossOrigin(origins = "*") // Enables CORS, Remove After Testing
 @RestController
 @RequestMapping("/admin")
 public class AdminController {

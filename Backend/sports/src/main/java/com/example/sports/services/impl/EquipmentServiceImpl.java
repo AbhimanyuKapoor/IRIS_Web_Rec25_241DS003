@@ -25,7 +25,13 @@ public class EquipmentServiceImpl implements EquipmentService {
     @Override
     public EquipmentDto addEquipment(EquipmentDto equipmentDto) {
 
-        // Null Check
+        // Null Checks
+        if(equipmentDto.name() == null || equipmentDto.name().isBlank())
+            throw new IllegalArgumentException("Equipment name must be specified");
+        if(equipmentDto.availabilityStatus() == null)
+            throw new IllegalArgumentException("Equipment Availability Status must be specified");
+        if(equipmentDto.quantity() == null)
+            throw new IllegalArgumentException("Equipment quantity must be specified");
 
         return EquipmentMapper.INSTANCE.toDto(
                 equipmentRepository.save(new Equipment(

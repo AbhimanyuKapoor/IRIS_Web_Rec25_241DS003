@@ -4,12 +4,14 @@ import com.example.sports.domain.dto.EquipmentDto;
 import com.example.sports.domain.dto.InfrastructureDto;
 import com.example.sports.services.EquipmentService;
 import com.example.sports.services.InfrastructureService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*") // Enables CORS, Remove After Testing
 @RestController
 @RequestMapping(path = "/public")
 public class PublicController {
