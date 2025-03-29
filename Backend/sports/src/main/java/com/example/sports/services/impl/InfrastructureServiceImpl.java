@@ -77,6 +77,14 @@ public class InfrastructureServiceImpl implements InfrastructureService {
     }
 
     @Override
+    public InfrastructureDto getInfrastructure(UUID infrastructureId) {
+        Infrastructure infrastructure = infrastructureRepository.findById(infrastructureId)
+                .orElseThrow(() -> new IllegalArgumentException("Infrastructure Id is Invalid"));
+
+        return InfrastructureMapper.INSTANCE.toDto(infrastructure);
+    }
+
+    @Override
     public void deleteInfrastructure(UUID infrastructureId) {
         infrastructureRepository.deleteById(infrastructureId);
     }

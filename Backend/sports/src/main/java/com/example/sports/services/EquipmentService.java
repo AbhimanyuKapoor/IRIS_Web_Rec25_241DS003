@@ -11,6 +11,8 @@ public interface EquipmentService {
 
     EquipmentDto updateEquipment(UUID equipmentId, EquipmentDto equipmentDto);
 
+    EquipmentDto getEquipment(UUID equipmentId);
+
     List<EquipmentDto> getAllEquipment();
 
     void deleteEquipment(UUID equipmentId);

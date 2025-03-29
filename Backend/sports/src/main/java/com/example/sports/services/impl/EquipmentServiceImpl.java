@@ -68,6 +68,14 @@ public class EquipmentServiceImpl implements EquipmentService {
     }
 
     @Override
+    public EquipmentDto getEquipment(UUID equipmentId) {
+        Equipment equipment = equipmentRepository.findById(equipmentId)
+                .orElseThrow(() -> new IllegalArgumentException("Equipment Id is Invalid"));
+
+        return EquipmentMapper.INSTANCE.toDto(equipment);
+    }
+
+    @Override
     public List<EquipmentDto> getAllEquipment() {
         return equipmentRepository.findAll()
                 .stream()

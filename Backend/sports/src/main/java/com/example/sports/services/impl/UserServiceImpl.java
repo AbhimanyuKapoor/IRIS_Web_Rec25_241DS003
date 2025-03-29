@@ -54,7 +54,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getUser(UUID userId) {
-
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("userId is Invalid"));
 

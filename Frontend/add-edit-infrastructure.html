@@ -13,10 +13,14 @@
   <body>
     <ul>
       <li style="float: left">
-        <button class="navBtn">Equipment</button>
+        <button class="navBtn" onclick="redirectPage('dashboard')">
+          Equipment
+        </button>
       </li>
       <li style="float: left">
-        <button class="navBtn">Infrastructure</button>
+        <button class="navBtn" onclick="redirectPage('infrastructure')">
+          Infrastructure
+        </button>
       </li>
       <li style="float: left">
         <button class="navBtn">Requests</button>
@@ -28,7 +32,7 @@
 
     <div class="container">
       <div class="headElements">
-        <a href="index.html"
+        <a href="#" onclick="redirectPage('infrastructure')"
           ><i class="fa-solid fa-arrow-left" id="backBtn"></i
         ></a>
         <p class="generalTxt">Add Infrastructure</p>
@@ -65,7 +69,7 @@
         <option value="UNDER_MAINTENANCE">Under Maintenance</option>
       </select>
 
-      <button class="appBtn" onclick="addInfrastructure()">
+      <button class="appBtn" onclick="addEditInfrastructure()">
         Add Infrastructure
       </button>
     </div>

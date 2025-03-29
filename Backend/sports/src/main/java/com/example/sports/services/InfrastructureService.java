@@ -13,5 +13,7 @@ public interface InfrastructureService {
 
     List<InfrastructureDto> getAllInfrastructure();
 
+    InfrastructureDto getInfrastructure(UUID infrastructureId);
+
     void deleteInfrastructure(UUID infrastructureId);
 }

@@ -1,12 +1,17 @@
 const serverUrl = "http://localhost:8080/";
-var userDetails = null;
-var userRole = null;
-var jwtToken = null;
+let userDetails = null;
+let userRole = null;
+let jwtToken = null;
 
 async function redirectPage(location) {
   if (location != "signup" && location != "login") {
-    if (await verifyUser()) window.location.href = `${location}.html`;
-    else window.location.href = "login.html";
+    if (await verifyUser()) {
+      if (location == "infrastructure") {
+        window.location.href = "dashboard.html?view=infrastructure";
+      } else {
+        window.location.href = `${location}.html`;
+      }
+    } else window.location.href = "login.html";
   } else window.location.href = `${location}.html`;
 }
 
