@@ -45,3 +45,16 @@ async function deleteData(endpoint) {
     raiseErrors(responseJSON.message);
   } else return responseJSON;
 }
+
+// Dynamic Formatting of JSON Data
+function formatText(key) {
+  return key
+    .replace(/_/g, " ") // Replaces underscores (_) with spaces
+    .replace(/([a-z])([A-Z])/g, "$1 $2") // Inserts space before uppercase letters in camelCase
+    .toLowerCase() // Convert everything to lowercase
+    .replace(/\b\w/g, (char) => char.toUpperCase()); // Capitalize first letter of each word
+}
+
+function formatTime(date) {
+  return date.toTimeString().substring(0, 5);
+}

@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @CrossOrigin(origins = "*") // Enables CORS, Remove After Testing
@@ -128,5 +130,18 @@ public class AdminController {
         }
 
         return new ResponseEntity<>(updatedInfraRequestDto, HttpStatus.OK);
+    }
+
+    @GetMapping("/equipment-request")
+    public List<EquipmentRequestDto> getEquipmentRequests() {
+        return equipmentRequestService.getEquipmentRequestByRequestStatus(RequestStatus.PENDING);
+    }
+
+    @GetMapping("/infrastructure-request")
+    public List<InfrastructureRequestDto> getInfrastructureRequests() {
+        return infrastructureRequestService.getInfrastructureRequestByDateAndRequestStatus(
+                LocalDate.now(),
+                RequestStatus.PENDING
+        );
     }
 }

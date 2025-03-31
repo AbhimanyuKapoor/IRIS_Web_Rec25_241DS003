@@ -14,6 +14,10 @@ public interface InfrastructureRequestRepository extends JpaRepository<Infrastru
 
     Optional<InfrastructureRequest> findByInfrastructureIdAndUserIdAndRequestedOn(UUID infrastructureId, UUID userId, LocalDate requestedOn);
 
-    @Query("SELECT a FROM InfrastructureRequest a WHERE a.requestedOn = ?1 AND a.reminderSent = false AND a.requestStatus = ?2")
+    // Returns Infrastructure Requests of a User in descending order of updated
+    List<InfrastructureRequest> findByUserIdOrderByUpdatedDesc(UUID userId);
+
+    // For Admin to see Pending Booking Requests for Infrastructure on that day (Oldest to Newest: Ascending)
+    @Query("SELECT a FROM InfrastructureRequest a WHERE a.requestedOn = ?1 AND a.reminderSent = false AND a.requestStatus = ?2 ORDER BY a.updated ASC")
     List<InfrastructureRequest>  findByDateAndStatus(LocalDate date, RequestStatus requestStatus);
 }

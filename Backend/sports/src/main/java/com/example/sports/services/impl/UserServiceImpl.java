@@ -6,6 +6,7 @@ import com.example.sports.domain.entities.User;
 import com.example.sports.mappers.UserMapper;
 import com.example.sports.repositories.UserRepository;
 import com.example.sports.services.UserService;
+import jakarta.annotation.PostConstruct;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -58,6 +59,25 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new IllegalArgumentException("userId is Invalid"));
 
         return UserMapper.INSTANCE.userToUserDto(user);
+    }
+
+    // Default Admin created when an empty DB is initialized
+    // For Testing purposes, Remove after Testing
+    @Override
+    @PostConstruct
+    public void createDefaultAdmin() {
+        if(!userRepository.existsByRole(Role.ADMIN)) {
+            userRepository.save(new User(
+                    null,
+                    "Admin",
+                    "admin123@gmail.com",
+                    passwordEncoder.encode("Admin123"),
+                    null,
+                    Role.ADMIN,
+                    null,
+                    null
+            ));
+        }
     }
 }
 

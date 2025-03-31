@@ -7,12 +7,12 @@ const view = params.get("view");
 async function checkUser() {
   if (!(await verifyUser())) {
     redirectPage("login");
+  } else {
+    // If no view, then equipment is taken as default
+    if (view == "infrastructure") writeEquipmentDetails(true);
+    else writeEquipmentDetails(false);
   }
 }
-
-// If no view, then equipment is taken as default
-if (view == "infrastructure") writeEquipmentDetails(true);
-else writeEquipmentDetails(false);
 
 // Showing details of equipment/infrastructure
 async function writeEquipmentDetails(infrastructure) {
@@ -26,7 +26,6 @@ async function writeEquipmentDetails(infrastructure) {
 
   responseJSON.forEach((equipment) => {
     let equipmentContainer = document.createElement("div");
-    // equipmentContainer.setAttribute("data-id", equipment.id);
     equipmentContainer.classList.add("equipment", "container");
 
     let equipmentHead = document.createElement("div");
@@ -214,19 +213,6 @@ async function deleteEquipment(equipmentId) {
       }, 3000);
     }
   } else raiseErrors("Only Admin can perform this action");
-}
-
-// Dynamic Formatting of JSON Data
-function formatText(key) {
-  return key
-    .replace(/_/g, " ") // Replaces underscores (_) with spaces
-    .replace(/([a-z])([A-Z])/g, "$1 $2") // Inserts space before uppercase letters in camelCase
-    .toLowerCase() // Convert everything to lowercase
-    .replace(/\b\w/g, (char) => char.toUpperCase()); // Capitalize first letter of each word
-}
-
-function formatTime(date) {
-  return date.toTimeString().substring(0, 5);
 }
 
 async function createInfraRequest(infraId, timeSlot) {

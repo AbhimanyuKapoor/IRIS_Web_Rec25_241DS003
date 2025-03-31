@@ -16,5 +16,6 @@ public interface EquipmentRequestMapper {
 
     @Mapping(target = "equipment", source = "equipmentDto")
     @Mapping(target = "user", ignore = true)
+    @Mapping(target = "updated", ignore = true)
     EquipmentRequest fromDto(EquipmentRequestDto equipmentRequestDto);
 }

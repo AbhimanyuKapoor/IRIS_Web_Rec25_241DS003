@@ -32,7 +32,7 @@ public class User {
     private Role role;
 
     // User & EquipmentRequest Relationship
-    @OneToMany(mappedBy = "user", cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
+    @OneToMany(mappedBy = "user", cascade = { CascadeType.REMOVE, CascadeType.PERSIST }, fetch = FetchType.LAZY)
     private List<EquipmentRequest> equipmentRequests;
 
     // User & InfrastructureRequest Relationship
@@ -139,8 +139,6 @@ public class User {
                 ", password='" + password + '\'' +
                 ", branch='" + branch + '\'' +
                 ", role=" + role +
-                ", equipmentRequests=" + equipmentRequests +
-                ", infrastructureRequests=" + infrastructureRequests +
                 '}';
     }
 }

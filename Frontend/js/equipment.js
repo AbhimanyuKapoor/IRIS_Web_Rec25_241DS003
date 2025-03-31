@@ -4,14 +4,16 @@ const params = new URLSearchParams(window.location.search);
 const equipmentId = params.get("id");
 const view = params.get("view");
 
-// If view == null, it is the default view (ie: Add Equipment/Infrastructure)
-if (view == "infrastructure") writeInfraDetails();
-else if (view == "equipment") writeEquipmentDetails();
-
 // Only allows logged in users to access page
 async function checkUser() {
   if (await verifyUser()) {
-    if (userRole != "ADMIN") redirectPage("dashboard");
+    if (userRole != "ADMIN") {
+      redirectPage("dashboard");
+    } else {
+      // If view == null, it is the default view (ie: Add Equipment/Infrastructure)
+      if (view == "infrastructure") writeInfraDetails();
+      else if (view == "equipment") writeEquipmentDetails();
+    }
   } else {
     redirectPage("login");
   }
@@ -29,9 +31,10 @@ async function writeEquipmentDetails() {
     equipmentDetails = document.querySelectorAll(".inputTextBoxes");
 
     // Admin can update Availability Status and Quantity only
-    equipmentDetails[0].disabled = true;
-    equipmentDetails[1].disabled = true;
-    equipmentDetails[2].disabled = true;
+    for (let i = 0; i < 3; i++) {
+      equipmentDetails[i].disabled = true;
+      equipmentDetails[i].classList.add("disabled");
+    }
 
     responseJSON = await fetchData(`public/equipment/${equipmentId}`);
 
@@ -48,8 +51,6 @@ async function writeInfraDetails() {
   headText = document.querySelector(".generalTxt");
   appBtn = document.querySelector(".appBtn");
 
-  console.log(equipmentId);
-
   if (equipmentId != null) {
     headText.textContent = "Update Infrastructure";
     appBtn.textContent = "Update Infrastructure";
@@ -57,11 +58,12 @@ async function writeInfraDetails() {
     infraDetails = document.querySelectorAll(".inputTextBoxes");
 
     // Admin can update Availability Status and Quantity only
-    infraDetails[0].disabled = true;
-    infraDetails[1].disabled = true;
-    infraDetails[2].disabled = true;
-    infraDetails[4].disabled = true;
-    infraDetails[5].disabled = true;
+    for (let i = 0; i < 6; i++) {
+      infraDetails[i].disabled = true;
+      infraDetails[i].classList.add("disabled");
+
+      if (i == 2) i++;
+    }
 
     responseJSON = await fetchData(`public/infrastructure/${equipmentId}`);
 

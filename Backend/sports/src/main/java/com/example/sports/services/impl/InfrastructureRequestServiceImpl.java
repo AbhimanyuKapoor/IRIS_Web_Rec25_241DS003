@@ -2,6 +2,7 @@ package com.example.sports.services.impl;
 
 import com.example.sports.domain.dto.InfrastructureRequestDto;
 import com.example.sports.domain.entities.*;
+import com.example.sports.mappers.InfrastructureMapper;
 import com.example.sports.mappers.InfrastructureRequestMapper;
 import com.example.sports.mappers.UserMapper;
 import com.example.sports.repositories.InfrastructureRepository;
@@ -9,9 +10,13 @@ import com.example.sports.repositories.InfrastructureRequestRepository;
 import com.example.sports.services.InfrastructureRequestService;
 import com.example.sports.services.UserService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class InfrastructureRequestServiceImpl implements InfrastructureRequestService {
@@ -48,6 +53,7 @@ public class InfrastructureRequestServiceImpl implements InfrastructureRequestSe
                         null,
                         infrastructureRequestDto.requestedFor(),
                         LocalDate.now(),
+                        LocalDateTime.now(),
                         RequestStatus.PENDING,
                         false,
                         user,
@@ -57,7 +63,7 @@ public class InfrastructureRequestServiceImpl implements InfrastructureRequestSe
     }
 
     @Override
-    public InfrastructureRequestDto updateInfrastructureRequest(UUID infrastructureRequestId, InfrastructureRequestDto infrastructureRequestDto, boolean calledByAdmin) {
+    public InfrastructureRequestDto updateInfrastructureRequest(UUID infrastructureRequestId, InfrastructureRequestDto infrastructureRequestDto, boolean calledByUser) {
 
         if(null == infrastructureRequestId)
             throw new IllegalArgumentException("Infrastructure Request must have an ID");
@@ -69,15 +75,10 @@ public class InfrastructureRequestServiceImpl implements InfrastructureRequestSe
         if(infrastructureRequestDto.requestStatus() != null)
             existingInfrastructureRequest.setRequestStatus(infrastructureRequestDto.requestStatus());
 
-        if(calledByAdmin) {
-            if(existingInfrastructureRequest.getRequestStatus() == RequestStatus.APPROVED) {
+        if(calledByUser)
+            existingInfrastructureRequest.setUpdated(LocalDateTime.now());
 
-                Infrastructure existingInfrastructure = getInfrastructure(existingInfrastructureRequest);
-                infrastructureRepository.save(existingInfrastructure);
-            }
-        }
-
-        if(!calledByAdmin) {
+        if(!calledByUser) {
             if (infrastructureRequestDto.reminderSent() != null)
                 existingInfrastructureRequest.setReminderSent(infrastructureRequestDto.reminderSent());
         }
@@ -85,16 +86,19 @@ public class InfrastructureRequestServiceImpl implements InfrastructureRequestSe
         return InfrastructureRequestMapper.INSTANCE.toDto(infrastructureRequestRepository.save(existingInfrastructureRequest));
     }
 
-    private static Infrastructure getInfrastructure(InfrastructureRequest existingInfrastructureRequest) {
-        Infrastructure existingInfrastructure = existingInfrastructureRequest.getInfrastructure();
+    @Override
+    public List<InfrastructureRequestDto> getInfrastructureRequestByUser(UUID userId) {
+        return infrastructureRequestRepository.findByUserIdOrderByUpdatedDesc(userId)
+                .stream()
+                .map(InfrastructureRequestMapper.INSTANCE::toDto)
+                .collect(Collectors.toList());
+    }
 
-        existingInfrastructure.setQuantity(existingInfrastructure.getQuantity() - 1);
-
-        if(existingInfrastructure.getQuantity() < 0)
-            throw new IllegalArgumentException("Cannot approve more Bookings than Available");
-        if(existingInfrastructure.getQuantity() == 0)
-            existingInfrastructure.setAvailabilityStatus(AvailabilityStatus.UNAVAILABLE);
-
-        return existingInfrastructure;
+    @Override
+    public List<InfrastructureRequestDto> getInfrastructureRequestByDateAndRequestStatus(LocalDate date, RequestStatus requestStatus) {
+        return infrastructureRequestRepository.findByDateAndStatus(date, requestStatus)
+                .stream()
+                .map(InfrastructureRequestMapper.INSTANCE::toDto)
+                .collect(Collectors.toList());
     }
 }

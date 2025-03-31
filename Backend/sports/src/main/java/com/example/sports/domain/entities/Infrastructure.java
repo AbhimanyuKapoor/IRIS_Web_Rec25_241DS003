@@ -153,7 +153,6 @@ public class Infrastructure {
                 ", quantity=" + quantity +
                 ", openingTime=" + openingTime +
                 ", closingTime=" + closingTime +
-                ", infrastructureRequests=" + infrastructureRequests +
                 '}';
     }
 }

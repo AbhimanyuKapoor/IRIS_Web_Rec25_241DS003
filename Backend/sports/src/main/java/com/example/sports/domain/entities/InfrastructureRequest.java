@@ -3,6 +3,7 @@ package com.example.sports.domain.entities;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Objects;
 import java.util.UUID;
@@ -21,6 +22,9 @@ public class InfrastructureRequest {
 
     @Column(name = "requested_on", nullable = false)
     private LocalDate requestedOn;
+
+    @Column(name = "updated", nullable = false)
+    private LocalDateTime updated;
 
     @Column(name = "request_status", nullable = false)
     private RequestStatus requestStatus;
@@ -41,10 +45,11 @@ public class InfrastructureRequest {
     public InfrastructureRequest() {
     }
 
-    public InfrastructureRequest(UUID id, LocalTime requestedFor, LocalDate requestedOn, RequestStatus requestStatus, Boolean reminderSent, User user, Infrastructure infrastructure) {
+    public InfrastructureRequest(UUID id, LocalTime requestedFor, LocalDate requestedOn, LocalDateTime updated, RequestStatus requestStatus, Boolean reminderSent, User user, Infrastructure infrastructure) {
         this.id = id;
         this.requestedFor = requestedFor;
         this.requestedOn = requestedOn;
+        this.updated = updated;
         this.requestStatus = requestStatus;
         this.reminderSent = reminderSent;
         this.user = user;
@@ -73,6 +78,14 @@ public class InfrastructureRequest {
 
     public void setRequestedOn(LocalDate requestedOn) {
         this.requestedOn = requestedOn;
+    }
+
+    public LocalDateTime getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(LocalDateTime updated) {
+        this.updated = updated;
     }
 
     public RequestStatus getRequestStatus() {
@@ -112,12 +125,12 @@ public class InfrastructureRequest {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         InfrastructureRequest that = (InfrastructureRequest) o;
-        return Objects.equals(id, that.id) && Objects.equals(requestedFor, that.requestedFor) && Objects.equals(requestedOn, that.requestedOn) && requestStatus == that.requestStatus && Objects.equals(reminderSent, that.reminderSent) && Objects.equals(user, that.user) && Objects.equals(infrastructure, that.infrastructure);
+        return Objects.equals(id, that.id) && Objects.equals(requestedFor, that.requestedFor) && Objects.equals(requestedOn, that.requestedOn) && Objects.equals(updated, that.updated) && requestStatus == that.requestStatus && Objects.equals(reminderSent, that.reminderSent) && Objects.equals(user, that.user) && Objects.equals(infrastructure, that.infrastructure);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, requestedFor, requestedOn, requestStatus, reminderSent, user, infrastructure);
+        return Objects.hash(id, requestedFor, requestedOn, updated, requestStatus, reminderSent, user, infrastructure);
     }
 
     @Override
@@ -126,10 +139,11 @@ public class InfrastructureRequest {
                 "id=" + id +
                 ", requestedFor=" + requestedFor +
                 ", requestedOn=" + requestedOn +
+                ", updated=" + updated +
                 ", requestStatus=" + requestStatus +
                 ", reminderSent=" + reminderSent +
-                ", user=" + user +
-                ", infrastructure=" + infrastructure +
+                ", user=" + user.getId() +
+                ", infrastructure=" + infrastructure.getId() +
                 '}';
     }
 }

@@ -23,16 +23,17 @@
         </button>
       </li>
       <li style="float: left">
-        <button class="navBtn" onclick="">Requests</button>
+        <button class="navBtn" onclick="redirectPage('equipment-requests')">
+          Requests
+        </button>
       </li>
       <li style="float: right">
         <button class="navBtn" onclick="logout()">Logout</button>
       </li>
     </ul>
 
-    <!-- <button class="floatingBtn" onclick="addEquipment()">+</button> -->
-
     <div class="equipmentContainer">
+      <!-- Dummy Data -->
       <!-- <div class="equipment container">
         <div
           class="headElements"
@@ -63,45 +64,6 @@
             <p>3</p>
           </div>
         </div>
-
-        <button class="appBtn" onclick="redirectPage('add')">
-          Create Request
-        </button>
-      </div>
-
-      <div class="equipment container">
-        <div class="headElements" style="width: 400px; justify-content: center">
-          <a href="#" onclick="redirectPage('edit')"
-            ><i class="fa-regular fa-pen-to-square" id="editBtn"></i
-          ></a>
-          <p class="generalTxt">Rackets Badminton</p>
-          <a href="index.html"
-            ><i class="fa-regular fa-trash-can" id="deleteBtn"></i
-          ></a>
-        </div>
-
-        <div class="detailsContainer">
-          <div class="detailsHeader">
-            <p>Title</p>
-            <p>Info</p>
-          </div>
-
-          <div class="details">
-            <p>Category:</p>
-            <p>Outdoor Sports</p>
-          </div>
-
-          <div class="details">
-            <p>Quantity:</p>
-            <p>3</p>
-          </div>
-        </div>
-
-        <select class="inputTextBoxes">
-          <option value="07:30" selected>7:30 - 8:30</option>
-          <option value="08:30">8:30 - 9:30</option>
-          <option value="09:30">9:30 - 10:30</option>
-        </select>
 
         <button class="appBtn" onclick="redirectPage('add')">
           Create Request

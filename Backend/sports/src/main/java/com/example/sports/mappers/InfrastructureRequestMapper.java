@@ -16,5 +16,6 @@ public interface InfrastructureRequestMapper {
 
     @Mapping(target = "infrastructure", source = "infrastructureDto")
     @Mapping(target = "user", ignore = true)
+    @Mapping(target = "updated", ignore = true)
     InfrastructureRequest fromDto(InfrastructureRequestDto infrastructureRequestDto);
 }

@@ -8,9 +8,14 @@ import com.example.sports.repositories.EquipmentRepository;
 import com.example.sports.repositories.EquipmentRequestRepository;
 import com.example.sports.services.EquipmentRequestService;
 import com.example.sports.services.UserService;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class EquipmentRequestServiceImpl implements EquipmentRequestService {
@@ -50,12 +55,14 @@ public class EquipmentRequestServiceImpl implements EquipmentRequestService {
                         null,
                         equipmentRequestDto.quantity(),
                         equipmentRequestDto.duration(),
+                        LocalDateTime.now(),
                         user,
                         equipment
                 ))
         );
     }
 
+    @Transactional
     @Override
     public EquipmentRequestDto updateEquipmentRequest(UUID equipmentRequestId, EquipmentRequestDto equipmentRequestDto, boolean calledByAdmin) {
 
@@ -74,26 +81,37 @@ public class EquipmentRequestServiceImpl implements EquipmentRequestService {
             existingEquipmentRequest.setInstructions(equipmentRequestDto.instructions());
 
         if(calledByAdmin) {
-            if(existingEquipmentRequest.getRequestStatus() == RequestStatus.APPROVED) {
+            existingEquipmentRequest.setUpdated(LocalDateTime.now());
 
-                Equipment existingEquipment = getEquipment(existingEquipmentRequest);
-                equipmentRepository.save(existingEquipment);
+            // If Request is Approved, Quantity and Availability of the Equipment auto-update based on Requested Quantity
+            if(existingEquipmentRequest.getRequestStatus() == RequestStatus.APPROVED) {
+                Equipment existingEquipment = existingEquipmentRequest.getEquipment();
+                existingEquipment.setQuantity(existingEquipment.getQuantity() - existingEquipmentRequest.getQuantity());
+
+                if(existingEquipment.getQuantity() < 0)
+                    throw new IllegalArgumentException("Cannot approve more Equipment than Available");
+                if(existingEquipment.getQuantity() == 0)
+                    existingEquipment.setAvailabilityStatus(AvailabilityStatus.UNAVAILABLE);
             }
         }
 
-        return EquipmentRequestMapper.INSTANCE.toDto(equipmentRequestRepository.save(existingEquipmentRequest));
+        // Hibernate auto-saves updated entities of the database in @Transactional method
+        return EquipmentRequestMapper.INSTANCE.toDto(existingEquipmentRequest);
     }
 
-    private static Equipment getEquipment(EquipmentRequest existingEquipmentRequest) {
-        Equipment existingEquipment = existingEquipmentRequest.getEquipment();
+    @Override
+    public List<EquipmentRequestDto> getEquipmentRequestByUser(UUID userId) {
+        return equipmentRequestRepository.findByUserIdOrderByUpdatedDesc(userId)
+                .stream()
+                .map(EquipmentRequestMapper.INSTANCE::toDto)
+                .collect(Collectors.toList());
+    }
 
-        existingEquipment.setQuantity(existingEquipment.getQuantity() - existingEquipmentRequest.getQuantity());
-
-        if(existingEquipment.getQuantity() < 0)
-            throw new IllegalArgumentException("Cannot approve more Equipment than Available");
-        if(existingEquipment.getQuantity() == 0)
-            existingEquipment.setAvailabilityStatus(AvailabilityStatus.UNAVAILABLE);
-
-        return existingEquipment;
+    @Override
+    public List<EquipmentRequestDto> getEquipmentRequestByRequestStatus(RequestStatus requestStatus) {
+        return equipmentRequestRepository.findByRequestStatusOrderByUpdatedAsc(requestStatus)
+                .stream()
+                .map(EquipmentRequestMapper.INSTANCE::toDto)
+                .collect(Collectors.toList());
     }
 }

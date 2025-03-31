@@ -2,6 +2,7 @@ package com.example.sports.domain.entities;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -29,6 +30,9 @@ public class EquipmentRequest {
     @Column(name = "duration")
     private String duration;
 
+    @Column(name = "updated", nullable = false)
+    private LocalDateTime updated;
+
     // User & EquipmentRequest Relationship
     @ManyToOne()
     @JoinColumn(name = "user_id")
@@ -42,13 +46,14 @@ public class EquipmentRequest {
     public EquipmentRequest() {
     }
 
-    public EquipmentRequest(UUID id, RequestStatus requestStatus, String comments, String instructions, Integer quantity, String duration, User user, Equipment equipment) {
+    public EquipmentRequest(UUID id, RequestStatus requestStatus, String comments, String instructions, Integer quantity, String duration, LocalDateTime updated, User user, Equipment equipment) {
         this.id = id;
         this.requestStatus = requestStatus;
         this.comments = comments;
         this.instructions = instructions;
         this.quantity = quantity;
         this.duration = duration;
+        this.updated = updated;
         this.user = user;
         this.equipment = equipment;
     }
@@ -101,6 +106,14 @@ public class EquipmentRequest {
         this.instructions = instructions;
     }
 
+    public LocalDateTime getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(LocalDateTime updated) {
+        this.updated = updated;
+    }
+
     public User getUser() {
         return user;
     }
@@ -122,12 +135,12 @@ public class EquipmentRequest {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         EquipmentRequest that = (EquipmentRequest) o;
-        return Objects.equals(id, that.id) && requestStatus == that.requestStatus && Objects.equals(comments, that.comments) && Objects.equals(instructions, that.instructions) && Objects.equals(quantity, that.quantity) && Objects.equals(duration, that.duration) && Objects.equals(user, that.user) && Objects.equals(equipment, that.equipment);
+        return Objects.equals(id, that.id) && requestStatus == that.requestStatus && Objects.equals(comments, that.comments) && Objects.equals(instructions, that.instructions) && Objects.equals(quantity, that.quantity) && Objects.equals(duration, that.duration) && Objects.equals(updated, that.updated) && Objects.equals(user, that.user) && Objects.equals(equipment, that.equipment);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, requestStatus, comments, instructions, quantity, duration, user, equipment);
+        return Objects.hash(id, requestStatus, comments, instructions, quantity, duration, updated, user, equipment);
     }
 
     @Override
@@ -139,8 +152,9 @@ public class EquipmentRequest {
                 ", instructions='" + instructions + '\'' +
                 ", quantity=" + quantity +
                 ", duration='" + duration + '\'' +
-                ", user=" + user +
-                ", equipment=" + equipment +
+                ", updated=" + updated +
+                ", user=" + user.getId() +
+                ", equipment=" + equipment.getId() +
                 '}';
     }
 }

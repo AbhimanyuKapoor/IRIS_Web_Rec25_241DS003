@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @CrossOrigin(origins = "*") // Enables CORS, Remove After Testing
@@ -54,5 +55,29 @@ public class StudentController {
                         equipmentId
                 ), HttpStatus.CREATED
         );
+    }
+
+    @GetMapping("/equipment-request")
+    public List<EquipmentRequestDto> getEquipmentRequests(@RequestAttribute UUID userId) {
+        return equipmentRequestService.getEquipmentRequestByUser(userId);
+    }
+
+    @GetMapping("/infrastructure-request")
+    public List<InfrastructureRequestDto> getInfrastructureRequests(@RequestAttribute UUID userId) {
+        return infrastructureRequestService.getInfrastructureRequestByUser(userId);
+    }
+
+    @PatchMapping("/infrastructure-request/{infrastructure_request_id}")
+    public ResponseEntity<InfrastructureRequestDto> cancelInfrastructureRequest(
+            @PathVariable("infrastructure_request_id") UUID infrastructureRequestId,
+            @RequestBody InfrastructureRequestDto infrastructureRequestDto
+    ) {
+        InfrastructureRequestDto updatedInfraRequestDto = infrastructureRequestService.updateInfrastructureRequest(
+                infrastructureRequestId,
+                infrastructureRequestDto,
+                true
+        );
+
+        return new ResponseEntity<>(updatedInfraRequestDto, HttpStatus.OK);
     }
 }

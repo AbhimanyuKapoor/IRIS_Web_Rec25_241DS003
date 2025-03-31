@@ -125,7 +125,6 @@ public class Equipment {
                 ", availabilityStatus=" + availabilityStatus +
                 ", quantity=" + quantity +
                 ", condition='" + condition + '\'' +
-                ", equipmentRequests=" + equipmentRequests +
                 '}';
     }
 }

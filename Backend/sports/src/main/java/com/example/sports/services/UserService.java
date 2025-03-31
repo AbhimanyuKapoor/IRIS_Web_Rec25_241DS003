@@ -9,4 +9,7 @@ public interface UserService {
     UserDto createUser(UserDto userDto);
 
     UserDto getUser(UUID userId);
+
+    // Default Admin is created when an empty DB is initialized
+    void createDefaultAdmin();
 }

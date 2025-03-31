@@ -80,8 +80,6 @@ async function verifyUser() {
   }
 }
 
-function fetchUserDetails() {}
-
 async function authUser(endpoint, payload) {
   response = await fetch(`${serverUrl}auth/${endpoint}`, {
     method: "POST",
