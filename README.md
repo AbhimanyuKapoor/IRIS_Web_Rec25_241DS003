@@ -53,7 +53,8 @@ Clone the repository in the system.
 #### 4. Real-Time Updates & Notifications  
 - Equipment quantity updates automatically when requests are approved.
 - When quantity reaches 0, it is marked as Unavailable without the need of Admin.
-- Email notifications using **Java Mailer**.  
+- Email notifications using **Java Mailer**.
+- Live notifications using Websockets over **STOMP protocol**.
 - Frontend notifications for successfull creations, updations, deletions.  
 
 #### 5. UI & Frontend Functionality  
