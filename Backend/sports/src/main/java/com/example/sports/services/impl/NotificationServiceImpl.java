@@ -9,6 +9,7 @@ import com.example.sports.services.NotificationService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class NotificationServiceImpl implements NotificationService {
@@ -24,11 +26,13 @@ public class NotificationServiceImpl implements NotificationService {
     private final InfrastructureRequestRepository infrastructureRequestRepository;
     private final InfrastructureRequestService infrastructureRequestService;
     private final JavaMailSender javaMailSender;
+    private final SimpMessagingTemplate messagingTemplate;
 
-    public NotificationServiceImpl(InfrastructureRequestRepository infrastructureRequestRepository, InfrastructureRequestService infrastructureRequestService, JavaMailSender javaMailSender) {
+    public NotificationServiceImpl(InfrastructureRequestRepository infrastructureRequestRepository, InfrastructureRequestService infrastructureRequestService, JavaMailSender javaMailSender, SimpMessagingTemplate messagingTemplate) {
         this.infrastructureRequestRepository = infrastructureRequestRepository;
         this.infrastructureRequestService = infrastructureRequestService;
         this.javaMailSender = javaMailSender;
+        this.messagingTemplate = messagingTemplate;
     }
 
     // To prevent repetitive Querying of Database
@@ -40,12 +44,11 @@ public class NotificationServiceImpl implements NotificationService {
     @Scheduled(fixedRate = 60000)
     public void sendReminders() {
 
-        LocalTime now = LocalTime.now();
-
         for(InfrastructureRequest request: reminderCache)
             if (!request.getReminderSent())
                 if(!LocalTime.now().plusMinutes(30).isBefore(request.getRequestedFor()) && !LocalTime.now().isAfter(request.getRequestedFor())) {
                     sendNotification(request.getUser().getEmail(),
+                            request.getUser().getId().toString(),
                             "Your Have an Upcoming Booking",
                             "Your have a Booking for: " + request.getInfrastructure().getName() + "\nOn: " + request.getRequestedFor());
                     request.setReminderSent(true);
@@ -54,8 +57,16 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public void sendNotification(String to, String subject, String message) {
+    public void sendNotification(String to, String userId, String subject, String message) {
 
+        // Live notification
+        messagingTemplate.convertAndSendToUser(
+                userId,
+                "/queue/notifications",
+                message
+        );
+
+        // Email notification
         SimpleMailMessage simpleMail = new SimpleMailMessage();
         simpleMail.setTo(to);
         simpleMail.setSubject(subject);

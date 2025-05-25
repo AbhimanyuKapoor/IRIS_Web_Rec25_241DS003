@@ -83,16 +83,19 @@ public class AdminController {
         );
 
         String userEmail = userService.getUser(updatedEquipmentRequestDto.userId()).email();
+        String userId = updatedEquipmentRequestDto.userId().toString();
 
         if(updatedEquipmentRequestDto.requestStatus() == RequestStatus.APPROVED) {
             notificationService.sendNotification(
                     userEmail,
+                    userId,
                     "Your Request for Equipment has been Approved!",
                     "Your Request for: "+updatedEquipmentRequestDto.equipmentDto().name()+"\nHas been Approved!"+"\nComments: "+updatedEquipmentRequestDto.comments()+"\nInstructions: "+updatedEquipmentRequestDto.instructions()
             );
         } else if(updatedEquipmentRequestDto.requestStatus() == RequestStatus.REJECTED) {
             notificationService.sendNotification(
                     userEmail,
+                    userId,
                     "Your Request for Equipment has been Rejected",
                     "Your Request for: "+updatedEquipmentRequestDto.equipmentDto().name()+"\nHas been Rejected!"+"\nComments: "+updatedEquipmentRequestDto.comments()+"\nInstructions: "+updatedEquipmentRequestDto.instructions()
             );
@@ -113,17 +116,20 @@ public class AdminController {
         );
 
         String userEmail = userService.getUser(updatedInfraRequestDto.userId()).email();
+        String userId = updatedInfraRequestDto.userId().toString();
 
         if (updatedInfraRequestDto.requestStatus() == RequestStatus.APPROVED) {
             notificationService.loadUpcomingBookingsIntoCache();
             notificationService.sendNotification(
                     userEmail,
+                    userId,
                     "Your Booking Request has been Approved!",
                     "Your Request for: " + updatedInfraRequestDto.infrastructureDto().name() + "\nOn: " + updatedInfraRequestDto.requestedFor() + "\nHas been Approved!"
             );
         } else if (updatedInfraRequestDto.requestStatus() == RequestStatus.REJECTED) {
             notificationService.sendNotification(
                     userEmail,
+                    userId,
                     "Your Booking Request has been Rejected",
                     "Your Request for: " + updatedInfraRequestDto.infrastructureDto().name() + "\nOn: " + updatedInfraRequestDto.requestedFor() + "\nHas been Rejected!"
             );
